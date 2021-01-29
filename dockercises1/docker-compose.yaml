@@ -1,0 +1,59 @@
+version: "3.1"
+
+services:
+  mongo_compose:
+    image: mongo:latest
+    container_name: mongo_compose
+    volumes:
+      - ./.docker/mongodb/data/db/:/data/db/
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo-js
+    env_file:
+    - .env
+    ports:
+    - "27017:27017"
+    restart: always
+    networks:
+      - backend
+  
+  mexpress_compose:
+    image: mongo-express:latest
+    container_name: mexpress_compose
+    env_file: 
+      - .env
+    depends_on: 
+      - "mongo_compose"
+    ports:
+      - "8081:8081"
+    restart: always
+    networks:
+      - backend
+
+  go_container3:
+    build: 
+      context: ./Contenedor3/
+    container_name: Contenedor3
+    env_file: 
+      - .env
+    depends_on:
+      - "mongo_compose"
+    networks:
+      - backend
+
+  go_container4:
+    build:
+      context: ./Contenedor4/
+    container_name: Contenedor4
+    env_file: 
+      - .env
+    depends_on:
+      - "mongo_compose"
+    ports:
+      - "7777:7777"
+    tty: true
+    stdin_open: true
+    networks: 
+      - backend
+
+networks:
+  backend:
+    driver: bridge

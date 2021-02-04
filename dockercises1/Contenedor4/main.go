@@ -14,8 +14,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	models "github.com/Drdzmtz/dockercises/Models"
-	mongoconnection "github.com/Drdzmtz/dockercises/Mongo"
+	models "github.com/Drdzmtz/dockercises/dockercises1/models"
+	mongoconnection "github.com/Drdzmtz/dockercises/dockercises1/mongoconnection"
 )
 
 var r *chi.Mux

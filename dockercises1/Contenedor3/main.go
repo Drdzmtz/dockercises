@@ -8,8 +8,8 @@ import (
 	"log"
 	"os"
 
-	models "github.com/Drdzmtz/dockercises/Models"
-	mongoconnection "github.com/Drdzmtz/dockercises/Mongo"
+	models "github.com/Drdzmtz/dockercises/models"
+	mongoconnection "github.com/Drdzmtz/dockercises/mongoconnection"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-package main
+package mongoconnection
 
 import (
 	"context"
@@ -21,7 +21,8 @@ var clientInstance *mongo.Client
 var clientInstanceError error
 var mongoOnce sync.Once
 
-func getMongoClient() (*mongo.Client, error) {
+// GetMongoClient returns a client instance to the mongoDatabase
+func GetMongoClient() (*mongo.Client, error) {
 	mongoOnce.Do(func() {
 		clientOptions := options.Client().ApplyURI(connectionString)
 		client, err := mongo.Connect(context.TODO(), clientOptions)

@@ -3,12 +3,15 @@ LABEL "Correo:"=drodriguez@tredicom.com
 
 WORKDIR /home/Tredicom/Dockercises/1/Contenedor4
 
+ENV GO111MODULE=on
+
+
 COPY ./main.go .
-COPY ./mongoConnection.go .
-COPY ./people.go .
 
-RUN go get -v -u go.mongodb.org/mongo-driver/mongo
-RUN go get -u github.com/go-chi/chi
-RUN go get -u github.com/go-chi/render
+# COPY go.mod .
+# COPY go.sum .
+RUN go mod download
 
-CMD ["go", "run", "main.go", "mongoConnection.go", "people.go"]
+RUN go build main.go
+
+CMD ["./main"]

@@ -1,16 +1,18 @@
-package main
+package models
 
 import (
 	"encoding/xml"
 	"net/http"
 )
 
-type people struct {
+//People is a Struct for the XML as a whole; a group of persons
+type People struct {
 	XMLName       xml.Name  `xml:"people"`
-	ListaPersonas []persona `xml:"person"`
+	ListaPersonas []Persona `xml:"person"`
 }
 
-type persona struct {
+//Persona is a Struct for a single person
+type Persona struct {
 	ID          float64 `xml:"id" bson:"ID"`
 	FirstName   string  `xml:"first_name" bson:"FirstName"`
 	LastName    string  `xml:"last_name" bson:"LastName"`
@@ -20,6 +22,7 @@ type persona struct {
 	PhoneNumber string  `xml:"phone_number" bson:"PhoneNumber"`
 }
 
-func (a persona) Render(w http.ResponseWriter, r *http.Request) error {
+//Render is a function to satisfy the renderer interface
+func (a Persona) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }

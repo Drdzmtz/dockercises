@@ -13,13 +13,18 @@ import (
 	"github.com/go-chi/render"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+
+	models "github.com/Drdzmtz/dockercises/Models"
+	mongoconnection "github.com/Drdzmtz/dockercises/Mongo"
 )
 
 var r *chi.Mux
 var client *mongo.Client
 var err error
 
-var personIDKey = "Key"
+type key string
+
+var personIDKey key = "Key"
 
 func init() {
 	r = chi.NewRouter()
@@ -28,7 +33,7 @@ func init() {
 	r.Use(middleware.URLFormat)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 
-	client, err = getMongoClient()
+	client, err = mongoconnection.GetMongoClient()
 
 	if err != nil {
 		fmt.Printf("Error: %v", err)
@@ -93,12 +98,12 @@ func getAllPeople(w http.ResponseWriter, r *http.Request) {
 }
 
 func peopleListResponse(p []bson.M) []render.Renderer {
-	var ppl people
+	var ppl models.People
 	list := []render.Renderer{}
 
 	for _, i := range p {
 
-		ppl.ListaPersonas = append(ppl.ListaPersonas, persona{
+		ppl.ListaPersonas = append(ppl.ListaPersonas, models.Persona{
 			ID:          i["ID"].(float64),
 			FirstName:   i["FirstName"].(string),
 			LastName:    i["LastName"].(string),

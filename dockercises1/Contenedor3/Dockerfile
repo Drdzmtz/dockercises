@@ -1,13 +1,16 @@
 FROM golang:latest
 LABEL "Correo:"=drodriguez@tredicom.com
 
-WORKDIR /home/Tredicom/Dockercises/1/Contenedor3
+WORKDIR /home/Tredicom/Dockercises/1/
 
-COPY ./main.go .
-COPY ./people.xml .
-COPY ./mongoConnection.go .
-COPY ./people.go .
+ENV GO111MODULE=on
 
-RUN go get -v -u go.mongodb.org/mongo-driver/mongo
+RUN go mod init github.com/Drdzmtz/dockercises
+RUN go mod download
 
-CMD ["go", "run", "main.go", "mongoConnection.go", "people.go"]
+COPY ./main.go ./Contenedor3/
+COPY ./people.xml ./Contenedor3/
+
+RUN go build ./Contenedor3/main.go
+
+CMD ["./main"]

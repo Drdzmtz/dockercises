@@ -5,19 +5,22 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
+
+	models "github.com/Drdzmtz/dockercises/Models"
+	mongoconnection "github.com/Drdzmtz/dockercises/Mongo"
 )
 
 func main() {
-	var people people
+	var people models.People
 	xmlToPeople("people.xml", &people)
 
-	client, err := getMongoClient()
+	client, err := mongoconnection.GetMongoClient()
 	defer client.Disconnect(context.TODO())
 
 	if err != nil {
-		fmt.Printf("Error: %v", err)
-		os.Exit(1)
+		log.Fatalf("Error: %v", err)
 	}
 
 	database := client.Database("dockercises1")
@@ -34,11 +37,9 @@ func main() {
 		fmt.Printf("Error: %v", err)
 		os.Exit(1)
 	}
-
-	// fmt.Println("Inserted multiple documents: ", insertManyResult.InsertedIDs)
 }
 
-func xmlToPeople(fileName string, people *people) {
+func xmlToPeople(fileName string, people *models.People) {
 	xmlFile, err := os.Open(fileName)
 
 	if err != nil {

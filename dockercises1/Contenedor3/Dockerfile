@@ -1,13 +1,16 @@
 FROM golang:latest
 LABEL "Correo:"=drodriguez@tredicom.com
 
-WORKDIR /home/Tredicom/Dockercises/1/
+WORKDIR /home/Tredicom/Dockercises/1/Contenedor3/
 
-RUN go mod init github.com/Drdzmtz/dockercises/dockercises1
+COPY go.mod .
+COPY go.sum .
 
-COPY ./main.go ./Contenedor3/
-COPY ./people.xml ./Contenedor3/
+RUN go mod download
 
-RUN go build ./Contenedor3/main.go
+COPY ./main.go .
+COPY ./people.xml .
 
-CMD ["Contenedor3./main"]
+RUN go build main.go
+
+CMD ["./main"]
